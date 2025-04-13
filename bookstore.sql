@@ -164,10 +164,39 @@ INSERT INTO address_status (status_id, status_name) VALUES (3, 'Primary');
 INSERT INTO address_status (status_id, status_name) VALUES (4, 'Billing');
 INSERT INTO address_status (status_id, status_name) VALUES (5, 'Shipping');
  
+-- Table: shipping_method
+-- This table stores the available shipping methods that can be selected for an order.
+-- Each method has a unique ID and a descriptive name.
 
+CREATE TABLE shipping_method (
+    method_id INT PRIMARY KEY AUTO_INCREMENT,  -- Unique identifier for each shipping method
+    method_name VARCHAR(100)                   -- Name of the shipping method (e.g., Standard, Express)
+);
+-- Shipping methods
+INSERT INTO shipping_method (method_name)
+VALUES
+('Standard Shipping'),  -- ID = 1
+('Express Shipping'),   -- ID = 2
+('Same-day Delivery');  -- ID = 3
 
+-- TABLE order_status
+-- This table defines all possible statuses an order can have.
+-- Examples of statuses: 'Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'.
 
--- Table:cust_order
+CREATE TABLE order_status (
+    status_id INT PRIMARY KEY AUTO_INCREMENT,  -- Unique ID for each order status
+    status_name VARCHAR(50)                    -- Descriptive name of the status
+);
+-- Order status options
+INSERT INTO order_status (status_name)
+VALUES
+('Pending'),      -- ID = 1
+('Processing'),   -- ID = 2
+('Shipped'),      -- ID = 3
+('Delivered'),    -- ID = 4
+('Cancelled');    -- ID = 5
+ 
+ -- Table:cust_order
 -- This table stores customer orders.
 --   Each order has a customer, shipping method, and status.
 CREATE TABLE cust_order (
@@ -204,29 +233,13 @@ CREATE TABLE order_line (
     FOREIGN KEY (order_id) REFERENCES cust_order(order_id),
     FOREIGN KEY (book_id) REFERENCES book(book_id)
 );
-
-INSERT INTO book (title, author, price)
-VALUES
-('The Great Gatsby', 'F. Scott Fitzgerald', 12.99),  -- book_id = 1
-('1984', 'George Orwell', 10.50),                    -- book_id = 2
-('To Kill a Mockingbird', 'Harper Lee', 11.75),      -- book_id = 3
-('The Catcher in the Rye', 'J.D. Salinger', 9.80),   -- book_id = 4
-('Pride and Prejudice', 'Jane Austen', 13.20);       -- book_id = 5
-
--- Table: shipping_method
--- This table stores the available shipping methods that can be selected for an order.
--- Each method has a unique ID and a descriptive name.
-
-CREATE TABLE shipping_method (
-    method_id INT PRIMARY KEY AUTO_INCREMENT,  -- Unique identifier for each shipping method
-    method_name VARCHAR(100)                   -- Name of the shipping method (e.g., Standard, Express)
-);
--- Shipping methods
-INSERT INTO shipping_method (method_name)
-VALUES
-('Standard Shipping'),  -- ID = 1
-('Express Shipping'),   -- ID = 2
-('Same-day Delivery');  -- ID = 3
+INSERT INTO order_line (order_id, book_id, quantity) VALUES
+(1, 101, 2),  -- 2 copies of "Things Fall Apart"
+(1, 103, 1),  -- 1 copy of "Harry Potter"
+(2, 104, 1),  -- 1 copy of "1984"
+(3, 105, 3),  -- 3 copies of "The Hunger of the Human"
+(4, 101, 1),  -- 1 copy of "Things Fall Apart"
+(4, 106, 2);  -- 2 copies of "The Trial of Dedan Kimathi"
 
 -- Table: order_history
 -- This table keeps a log of all status changes for customer orders.
@@ -263,20 +276,4 @@ VALUES
 (5, 1, '2025-04-13 12:00:00'),  -- Order 5: Created as Pending
 (5, 5, '2025-04-13 14:00:00');  -- Order 5: Cancelled
 
--- TABLE order_status
--- This table defines all possible statuses an order can have.
--- Examples of statuses: 'Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'.
-
-CREATE TABLE order_status (
-    status_id INT PRIMARY KEY AUTO_INCREMENT,  -- Unique ID for each order status
-    status_name VARCHAR(50)                    -- Descriptive name of the status
-);
--- Order status options
-INSERT INTO order_status (status_name)
-VALUES
-('Pending'),      -- ID = 1
-('Processing'),   -- ID = 2
-('Shipped'),      -- ID = 3
-('Delivered'),    -- ID = 4
-('Cancelled');    -- ID = 5
 
