@@ -287,6 +287,8 @@ GRANT ALL PRIVILEGES ON bookstore_db.* TO 'jackline_dev'@'%' WITH GRANT OPTION;
 
 FLUSH PRIVILEGES;
 
+-- Sample Queries
+
 -- View all books and their authors
 SELECT b.title, a.author_name
 FROM book b
