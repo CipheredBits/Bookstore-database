@@ -12,7 +12,7 @@ This is a group project for the Database Design & Programming with SQL module. T
 
 - Created the GitHub repository  
 - Designed and created tables: `book`, `author`, `book_language`, `publisher`, `book_author`  
-- Wrote insert data and sample queries  
+- Wrote insert data and inserted sample data
 - Added user accounts for all team members  
 - Reviewed all work in `bookstore.sql`
 - Designed ER Diagram
