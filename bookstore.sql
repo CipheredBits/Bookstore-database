@@ -214,32 +214,31 @@ CREATE TABLE cust_order (
 
 INSERT INTO cust_order (customer_id, order_date, shipping_method_id, status_id)
 VALUES
-(1, '2025-04-10 10:30:00', 1, 1),   -- Customer 1, standard shipping, status: Pending
-(2, '2025-04-11 15:45:00', 2, 2),   -- Customer 2, express shipping, status: Processing
-(3, '2025-04-12 09:20:00', 1, 3),   -- Customer 3, standard shipping, status: Shipped
-(4, '2025-04-12 17:00:00', 3, 4),   -- Customer 4, same-day delivery, status: Delivered
-(5, '2025-04-13 12:00:00', 2, 5);   -- Customer 5, express shipping, status: Cancelled
-
+(1, '2025-04-10 10:30:00', 1, 1),  
+(2, '2025-04-11 15:45:00', 2, 2), 
+(3, '2025-04-12 09:20:00', 1, 3),   
+(4, '2025-04-12 17:00:00', 3, 4),  
+(5, '2025-04-13 12:00:00', 2, 5);  
 -- table: order_line
  -- This table represents the details of each item in a customer order.
 -- Each row corresponds to one book in an order, including its quantity.
 
 CREATE TABLE order_line (
-    order_id INT,                      -- Foreign key referencing the order
-    book_id INT,                       -- Foreign key referencing the book
-    quantity INT,                      -- Quantity of the book ordered
+    order_id INT,                     
+    book_id INT,                      
+    quantity INT,                      
 
     PRIMARY KEY (order_id, book_id),   -- Composite primary key to ensure uniqueness per order and book
     FOREIGN KEY (order_id) REFERENCES cust_order(order_id),
     FOREIGN KEY (book_id) REFERENCES book(book_id)
 );
 INSERT INTO order_line (order_id, book_id, quantity) VALUES
-(1, 101, 2),  -- 2 copies of "Things Fall Apart"
-(1, 103, 1),  -- 1 copy of "Harry Potter"
-(2, 104, 1),  -- 1 copy of "1984"
-(3, 105, 3),  -- 3 copies of "The Hunger of the Human"
-(4, 101, 1),  -- 1 copy of "Things Fall Apart"
-(4, 106, 2);  -- 2 copies of "The Trial of Dedan Kimathi"
+(1, 101, 2),  
+(1, 103, 1),  
+(2, 104, 1),  
+(3, 105, 3),  
+(4, 101, 1), 
+(4, 106, 2);  
 
 -- Table: order_history
 -- This table keeps a log of all status changes for customer orders.
@@ -251,8 +250,8 @@ CREATE TABLE order_history (
     status_id INT,                              -- The new status ID assigned to the order
     changed_on DATETIME,                        -- Timestamp when the status change occurred
 
-    FOREIGN KEY (order_id) REFERENCES cust_order(order_id),        -- Links to the relevant order
-    FOREIGN KEY (status_id) REFERENCES order_status(status_id)     -- Links to the new status
+    FOREIGN KEY (order_id) REFERENCES cust_order(order_id),       
+    FOREIGN KEY (status_id) REFERENCES order_status(status_id)     
 );
 -- Sample status change history for different orders
 
@@ -275,5 +274,31 @@ VALUES
 
 (5, 1, '2025-04-13 12:00:00'),  -- Order 5: Created as Pending
 (5, 5, '2025-04-13 14:00:00');  -- Order 5: Cancelled
+
+-- Create group user accounts
+CREATE USER 'sadaf_leader'@'%' IDENTIFIED BY 'Sadaf@123!';
+GRANT ALL PRIVILEGES ON bookstore_db.* TO 'sadaf_leader'@'%' WITH GRANT OPTION;
+
+CREATE USER 'patricia_dev'@'%' IDENTIFIED BY 'Patricia@123!';
+GRANT ALL PRIVILEGES ON bookstore_db.* TO 'patricia_dev'@'%' WITH GRANT OPTION;
+
+CREATE USER 'jackline_dev'@'%' IDENTIFIED BY 'Jackline@123!';
+GRANT ALL PRIVILEGES ON bookstore_db.* TO 'jackline_dev'@'%' WITH GRANT OPTION;
+
+FLUSH PRIVILEGES;
+
+-- View all books and their authors
+SELECT b.title, a.author_name
+FROM book b
+JOIN book_author ba ON b.book_id = ba.book_id
+JOIN author a ON ba.author_id = a.author_id;
+
+-- List customers and their active addresses
+SELECT c.first_name, c.last_name, a.street, a.city
+FROM customer c
+JOIN customer_address ca ON c.customer_id = ca.customer_id
+JOIN address a ON ca.address_id = a.address_id
+WHERE ca.address_status = 1;
+
 
 
