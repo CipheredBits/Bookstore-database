@@ -183,6 +183,17 @@ CREATE TABLE cust_order (
     FOREIGN KEY (shipping_method_id) REFERENCES shipping_method(method_id),
     FOREIGN KEY (status_id) REFERENCES order_status(status_id)
 );
+
+-- Sample customer order entries
+
+INSERT INTO cust_order (customer_id, order_date, shipping_method_id, status_id)
+VALUES
+(1, '2025-04-10 10:30:00', 1, 1),   -- Customer 1, standard shipping, status: Pending
+(2, '2025-04-11 15:45:00', 2, 2),   -- Customer 2, express shipping, status: Processing
+(3, '2025-04-12 09:20:00', 1, 3),   -- Customer 3, standard shipping, status: Shipped
+(4, '2025-04-12 17:00:00', 3, 4),   -- Customer 4, same-day delivery, status: Delivered
+(5, '2025-04-13 12:00:00', 2, 5);   -- Customer 5, express shipping, status: Cancelled
+
 -- table: order_line
  -- This table represents the details of each item in a customer order.
 -- Each row corresponds to one book in an order, including its quantity.
@@ -197,6 +208,14 @@ CREATE TABLE order_line (
     FOREIGN KEY (book_id) REFERENCES book(book_id)
 );
 
+INSERT INTO book (title, author, price)
+VALUES
+('The Great Gatsby', 'F. Scott Fitzgerald', 12.99),  -- book_id = 1
+('1984', 'George Orwell', 10.50),                    -- book_id = 2
+('To Kill a Mockingbird', 'Harper Lee', 11.75),      -- book_id = 3
+('The Catcher in the Rye', 'J.D. Salinger', 9.80),   -- book_id = 4
+('Pride and Prejudice', 'Jane Austen', 13.20);       -- book_id = 5
+
 -- Table: shipping_method
 -- This table stores the available shipping methods that can be selected for an order.
 -- Each method has a unique ID and a descriptive name.
@@ -205,6 +224,12 @@ CREATE TABLE shipping_method (
     method_id INT PRIMARY KEY AUTO_INCREMENT,  -- Unique identifier for each shipping method
     method_name VARCHAR(100)                   -- Name of the shipping method (e.g., Standard, Express)
 );
+-- Shipping methods
+INSERT INTO shipping_method (method_name)
+VALUES
+('Standard Shipping'),  -- ID = 1
+('Express Shipping'),   -- ID = 2
+('Same-day Delivery');  -- ID = 3
 
 -- Table: order_history
 -- This table keeps a log of all status changes for customer orders.
@@ -219,6 +244,27 @@ CREATE TABLE order_history (
     FOREIGN KEY (order_id) REFERENCES cust_order(order_id),        -- Links to the relevant order
     FOREIGN KEY (status_id) REFERENCES order_status(status_id)     -- Links to the new status
 );
+-- Sample status change history for different orders
+
+INSERT INTO order_history (order_id, status_id, changed_on)
+VALUES
+(1, 1, '2025-04-10 10:30:00'),  -- Order 1: Created as Pending
+(1, 2, '2025-04-10 12:00:00'),  -- Order 1: Moved to Processing
+(1, 3, '2025-04-11 08:00:00'),  -- Order 1: Shipped
+
+(2, 1, '2025-04-11 15:45:00'),  -- Order 2: Created as Pending
+(2, 2, '2025-04-11 17:00:00'),  -- Order 2: Processing
+
+(3, 1, '2025-04-12 09:20:00'),  -- Order 3: Created as Pending
+(3, 3, '2025-04-12 12:30:00'),  -- Order 3: Shipped
+
+(4, 1, '2025-04-12 17:00:00'),  -- Order 4: Created as Pending
+(4, 2, '2025-04-12 18:00:00'),  -- Order 4: Processing
+(4, 3, '2025-04-12 19:00:00'),  -- Order 4: Shipped
+(4, 4, '2025-04-13 10:00:00'),  -- Order 4: Delivered
+
+(5, 1, '2025-04-13 12:00:00'),  -- Order 5: Created as Pending
+(5, 5, '2025-04-13 14:00:00');  -- Order 5: Cancelled
 
 -- TABLE order_status
 -- This table defines all possible statuses an order can have.
@@ -228,4 +274,12 @@ CREATE TABLE order_status (
     status_id INT PRIMARY KEY AUTO_INCREMENT,  -- Unique ID for each order status
     status_name VARCHAR(50)                    -- Descriptive name of the status
 );
+-- Order status options
+INSERT INTO order_status (status_name)
+VALUES
+('Pending'),      -- ID = 1
+('Processing'),   -- ID = 2
+('Shipped'),      -- ID = 3
+('Delivered'),    -- ID = 4
+('Cancelled');    -- ID = 5
 
