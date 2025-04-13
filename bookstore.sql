@@ -87,27 +87,6 @@ INSERT INTO Book_Author (book_id, author_id) VALUES
 (109, 5);
 
 
---Table:customer
-
-CREATE TABLE customer (
-    Customer_id INT NOT NULL AUTO_INCREMENT,
-    First_name VARCHAR(50) NOT NULL,
-    Last_name VARCHAR(50) NOT NULL,
-    Email VARCHAR(100),
-    Phone_number VARCHAR(20),
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
-    PRIMARY KEY (customer_id)
-);
--- Table: address
-CREATE TABLE address (
-    Address_id INT NOT NULL AUTO_INCREMENT,
-    Street VARCHAR(100) NOT NULL,
-    City VARCHAR(50) NOT NULL,
-    Country_id INT(11) NOT NULL,
-    PRIMARY KEY (address_id),
-    FOREIGN KEY (country_id) REFERENCES country(Country_id)
-);
-
 -- Table: country
 CREATE TABLE country (
     country_id INT NOT NULL AUTO_INCREMENT,
@@ -116,28 +95,43 @@ CREATE TABLE country (
     PRIMARY KEY (country_id)
 );
 
--- Table: customer_address
--- This table is used to store the relationship between customers and their addresses
--- It includes a foreign key reference to the customer and address tables
-CREATE TABLE customer_address (
-    customer_id INT NOT NULL,
-    address_id INT NOT NULL,
-PRIMARY KEY (customer_id, address_id),
-    FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
-    FOREIGN KEY (address_id) REFERENCES address(address_id),
-     FOREIGN KEY (status_id) REFERENCES address_status(status_id)
+-- Table: address
+CREATE TABLE address (
+    address_id INT NOT NULL AUTO_INCREMENT,
+    street VARCHAR(100) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    country_id INT(11) NOT NULL,
+    PRIMARY KEY (address_id),
+    FOREIGN KEY (country_id) REFERENCES country(country_id)
+);
+--Table:customer
+CREATE TABLE customer (
+    customer_id INT NOT NULL AUTO_INCREMENT,
+    First_name VARCHAR(50) NOT NULL,
+    Last_name VARCHAR(50) NOT NULL,
+    Email VARCHAR(100),
+    Phone_number VARCHAR(20),
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    PRIMARY KEY (customer_id)
 );
 
-ALTER TABLE customer_address
- ADD address_status INT(1) NOT NULL DEFAULT 1, -- 1 means active
- ADD is_primary INT(1) NOT NULL DEFAULT 0; -- means not primary
-
 -- Table: address_status
--- This table is used to store the status of the address (active, inactive, etc.)
 CREATE TABLE address_status (
     status_id INT  NOT NULL,
     status_name VARCHAR(20) NOT NULL,
     PRIMARY KEY (status_id)
+);
+
+-- Table: customer_address
+CREATE TABLE customer_address (
+    customer_id INT NOT NULL,
+    address_id INT NOT NULL,
+    address_status INT(1) NOT NULL DEFAULT 1, -- 1 means active
+ is_primary INT(1) NOT NULL DEFAULT 0, -- means not primary
+PRIMARY KEY (customer_id, address_id),
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+    FOREIGN KEY (address_id) REFERENCES address(address_id),
+     FOREIGN KEY (address_status) REFERENCES address_status(status_id)
 );
 
 INSERT INTO country (country_name, country_code) VALUES
@@ -156,7 +150,7 @@ INSERT INTO address (street, city, country_id) VALUES
 ('Moi avenue', 'Nairobi',  1),
 ('kampala road', 'Kampala',  2),
 ('commissioner street', 'Johannesburg',  3),
-('kikuyu avenue', 'Dodoma', 'Tanzania', 4);
+('kikuyu avenue', 'Dodoma',  4);
 
 INSERT INTO customer_address (customer_id, address_id, address_status, is_primary) VALUES
 (1, 1, 1, 1), -- dennis mwangi with address 1, active and primary
@@ -170,6 +164,9 @@ INSERT INTO address_status (status_id, status_name) VALUES (3, 'Primary');
 INSERT INTO address_status (status_id, status_name) VALUES (4, 'Billing');
 INSERT INTO address_status (status_id, status_name) VALUES (5, 'Shipping');
  
+
+
+
 -- Table:cust_order
 -- This table stores customer orders.
 --   Each order has a customer, shipping method, and status.
