@@ -14,17 +14,20 @@ This is a group project for the Database Design & Programming with SQL module. T
 - Designed and created tables: `book`, `author`, `book_language`, `publisher`, `book_author`  
 - Wrote insert data and sample queries  
 - Added user accounts for all team members  
-- Reviewed all work in `bookstore.sql` |
+- Reviewed all work in `bookstore.sql`
+- Designed ER Diagram
   
 | **Patricia**   | Developer |  
 - Created: `customer`, `address`, `country`, `address_status`, `customer_address`  
 - Inserted sample customer, address, and country data  
-- Handled foreign key relationships |
+- Handled foreign key relationships
+- Designed ER Diagram
   
 | **Jackline**   | Developer |  
 - Created: `cust_order`, `order_line`, `order_history`, `shipping_method`, `order_status`  
 - Inserted order-related data  
-- Tracked order history |
+- Tracked order history
+- Designed ER Diagram
 
 ---
 
