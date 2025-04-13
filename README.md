@@ -41,3 +41,10 @@ This is a group project for the Database Design & Programming with SQL module. T
 - `README.md` – This file
 
 ---
+
+## Entity Relationship Diagram
+
+The following diagram illustrates the database structure for our bookstore system:
+
+![ER Diagram](./bookstore.png)
+
