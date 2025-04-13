@@ -23,7 +23,7 @@ This is a group project for the Database Design & Programming with SQL module. T
 | **Jackline**   | Developer |  
 - Created: `cust_order`, `order_line`, `order_history`, `shipping_method`, `order_status`  
 - Inserted order-related data  
-- Tracked order history 
+- Tracked order history |
 
 ---
 
