@@ -8,7 +8,7 @@ This is a group project for the Database Design & Programming with SQL module. T
 
 ## Group Members & Responsibilities
 
-| **Sadaf** (Group Leader) | Database Architect & GitHub Manager | 
+| **CipheredBits** (Group Leader) | Database Architect & GitHub Manager | 
 
 - Created the GitHub repository  
 - Designed and created tables: `book`, `author`, `book_language`, `publisher`, `book_author`  
